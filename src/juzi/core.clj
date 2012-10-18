@@ -1,4 +1,4 @@
-(ns juzi.routes
+(ns juzi.core
   (:use compojure.core
         [juzi.response :only [json]]
         [juzi.models.wall :only [wall create-wall! update-wall!]]
