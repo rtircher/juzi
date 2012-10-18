@@ -1,7 +1,7 @@
-(ns juzi2.test.handler
+(ns juzi.test.handler
   (:use clojure.test
         ring.mock.request  
-        juzi2.handler))
+        juzi.handler))
 
 (deftest test-app
   (testing "main route"
