@@ -17,7 +17,7 @@ To start a web server for the application, run:
 ## TODO
 
 * Force https (x-forwarded protto and all that.  Look at lib-noir on how they did that)
-
+* Create nicer 500 and 404 pages
 
 ## License
 
