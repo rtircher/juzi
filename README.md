@@ -18,6 +18,7 @@ To start a web server for the application, run:
 
 * Force https (x-forwarded protto and all that.  Look at lib-noir on how they did that)
 * Create nicer 500 and 404 pages
+* Extracting RIAK related stuff from go script into its own script to source in go script
 
 ## License
 
