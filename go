@@ -23,6 +23,8 @@ fi
 # line limit maxfiles 16384 unlimited
 
 if [ $LAST_RET_CODE == 0 ] && [ -d $RIAK_DEVREL ]; then
+  ulimit -n 2048
+
   DEV_DIRS=`ls -d $RIAK_HOME/dev/*`
 
   for DEV_DIR in $DEV_DIRS; do
