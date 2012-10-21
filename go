@@ -27,7 +27,6 @@ function create_cluster {
     fi
   done
 
-
   for node in $rest_nodes; do
     local admin_node="$node/bin/riak-admin"
 
@@ -45,8 +44,6 @@ function shutdown_cluster {
   shift
   local rest_nodes=$@
 
-  # This line might be enought to remove other nodes from cluster and
-  # stop them... to be verified
   $first_node/bin/riak-admin cluster clear
 
   for node in $rest_nodes; do
