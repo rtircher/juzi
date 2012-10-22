@@ -34,12 +34,14 @@ function(valueList) {
 }"}}]}))))
 
 (def ^:private max-quotes-id (atom (max-id-for quotes-bucket)))
-(defn- quote-id []
+(defn- next-quote-id []
   (str (swap! max-quotes-id inc)))
 
 
-(defn create-quote! [quote]
-  (ensure-db-connected)
-  (let [id (quote-id)]
-    (kv/store quotes-bucket id quote :content-type "application/json")
-    (assoc quote :id id)))
+(defn store-quote!
+  ([quote]
+     (store-quote! (next-quote-id) quote))
+  ([id quote]
+     (ensure-db-connected)
+     (kv/store quotes-bucket id quote :content-type "application/json")
+     (assoc quote :id id)))
