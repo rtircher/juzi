@@ -28,18 +28,20 @@ fi
 
 if [ $LAST_RET_CODE == 0 ] && [ ! -d $RIAK_HOME ]; then
   echo "Installing Riak"
+  echo "  --> Extracting sources"
   tar zxf $RIAK_TARBALL -C tools
-  cd $RIAK_HOME
-  make rel
+  echo "  --> Copying configuration"
+  cp resources/config/riak/app.config $RIAK_HOME/rel/files/
+  # cf comment above (this might be what's needed for prod deploy)
+  # echo "  --> Building riak"
+  # cd $RIAK_HOME
+  # make all rel
   LAST_RET_CODE=$?
-
-  if [ $LAST_RET_CODE == 0 ]; then
-    echo "Buidling Riak"
-    make all
-    LAST_RET_CODE=$?
-  fi
 fi
 
+# Seems like we should not use this in "prod"
+# cf http://docs.basho.com/riak/1.2.0/cookbooks/Basic-Cluster-Setup/
+# for more info
 if [ $LAST_RET_CODE == 0 ] && [ ! -d $RIAK_DEVREL ]; then
   echo "Creating Riak nodes"
   cd $RIAK_HOME
