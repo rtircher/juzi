@@ -3,8 +3,7 @@
   (:require [clojurewerkz.welle.core    :as wc]
             [clojurewerkz.welle.kv      :as kv]
             [clojurewerkz.welle.mr      :as mr])
-  ;(:import com.basho.riak.client.http.util.Constants)
-  )
+  (:import com.basho.riak.client.http.util.Constants))
 
 (def ^:private db-connected (ref false))
 (def ^:private quotes-bucket "quotes")
@@ -45,6 +44,10 @@ function(valueList) {
   ([id quote]
      (ensure-db-connected)
      (kv/store quotes-bucket id quote
-               :content-type "application/json"
+               :content-type Constants/CTYPE_JSON_UTF8
                :indexes {:wall-id (:wall-id quote)})
      (assoc quote :id id)))
+
+(defn find-quotes [wall-id]
+  (map :value (kv/fetch-all quotes-bucket
+                         (kv/index-query quotes-bucket :wall-id wall-id))))
