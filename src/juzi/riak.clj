@@ -29,7 +29,8 @@ function(valueList) {
   return [ valueList.reduce(
     function(acc, value){
       return (+acc > +value) ? acc : value;
-    }
+    },
+    '0'
   )];
 }"}}]}))))
 
