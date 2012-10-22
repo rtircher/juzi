@@ -18,10 +18,10 @@
 
   (GET "/walls/:wall-id/quotes" [wall-id]
     (json (quotes wall-id)))
-  (POST "/walls/:wall-id/quotes" [wall-id quote-text]
-    (json (create-quote! wall-id quote-text)))
-  (PUT "/walls/:wall-id/quotes/:quote-id" [wall-id quote-id quote-text]
-    (json (update-quote! wall-id quote-id quote-text)))
+  (POST "/walls/:wall-id/quotes" {params :params}
+    (json (create-quote! params)))
+  (PUT "/walls/:wall-id/quotes/:quote-id" [quote-id :as {params :params}]
+    (json (update-quote! quote-id params)))
 
   (route/not-found "Not Found"))
 
