@@ -1,6 +1,6 @@
 (ns juzi.response
   (:use [ring.util.response :only (response content-type status)])
-  (:require [clj-json.core :as json]))
+  (:require [cheshire.core :as json]))
 
 (defn html [data]
   (-> (response data)

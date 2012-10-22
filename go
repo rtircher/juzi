@@ -44,7 +44,7 @@ function shutdown_cluster {
   shift
   local rest_nodes=$@
 
-  $first_node/bin/riak-admin cluster clear
+#  $first_node/bin/riak-admin cluster clear
 
   for node in $rest_nodes; do
     local riak_node="$node/bin/riak"

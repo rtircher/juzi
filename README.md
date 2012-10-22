@@ -17,6 +17,8 @@ To start a web server for the application, run:
 
 ## TODO
 
+* Fix go script for already created cluster
+* Create configs for dev, (staging), prod
 * Force https (x-forwarded protto and all that.  Look at lib-noir on how they did that)
 * Create nicer 500 and 404 pages
 
