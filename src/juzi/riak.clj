@@ -8,8 +8,8 @@
 (def ^:private db-connected (ref false))
 
 (defn- ensure-db-connected []
-  (dosync 
-   (when (not db-connected)
+  (dosync
+   (when (not @db-connected)
      (wc/connect! (:db-url config))
      (ref-set db-connected true))))
 
