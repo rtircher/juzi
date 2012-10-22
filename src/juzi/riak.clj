@@ -43,5 +43,7 @@ function(valueList) {
      (store-quote! (next-quote-id) quote))
   ([id quote]
      (ensure-db-connected)
-     (kv/store quotes-bucket id quote :content-type "application/json")
+     (kv/store quotes-bucket id quote
+               :content-type "application/json"
+               :indexes {:wall-id (:wall-id quote)})
      (assoc quote :id id)))
