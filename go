@@ -56,6 +56,12 @@ function shutdown_cluster {
     fi
   done
 
+  echo "Waiting for transfers to complete.  This may take a while."
+  while ! ($first_node/bin/riak-admin transfers | grep "No transfers active"); do
+    $first_node/bin/riak-admin transfers
+    sleep 2
+  done
+
   for node in $all_nodes; do
     local riak_node="$node/bin/riak"
 
