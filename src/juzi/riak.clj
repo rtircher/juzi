@@ -87,3 +87,6 @@ function(valueList) {
 (defn delete-quote! [quote-id]
   (ensure-db-connected)
   (kv/delete quotes-bucket quote-id))
+
+(defn delete-all-quotes-from! [wall-id]
+  (doall (kv/delete-all-via-2i quotes-bucket :wall-id wall-id)))

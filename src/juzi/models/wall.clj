@@ -24,5 +24,6 @@
 
 (defn delete-wall! [wall-id]
   (let [wall (wall wall-id)]
+    (riak/delete-all-quotes-from! wall-id)
     (riak/delete-wall! wall-id)
     wall))
