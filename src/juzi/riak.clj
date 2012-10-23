@@ -34,15 +34,13 @@ function(valueList) {
   )];
 }"}}]}))))
 
-(def ^:private max-quotes-id (atom (max-id-for quotes-bucket)))
-(defn- next-quote-id []
-  (str (swap! max-quotes-id inc)))
+;; create macro dbfn that contains the call to (ensure-db-connected)
+;; and then just apply the body
+
 
 (def ^:private max-walls-id (atom (max-id-for walls-bucket)))
 (defn- next-wall-id []
   (str (swap! max-walls-id inc)))
-
-
 
 (defn store-wall!
   ([wall]
@@ -53,7 +51,16 @@ function(valueList) {
                :content-type Constants/CTYPE_JSON_UTF8)
      (assoc wall :id id)))
 
+(defn find-wall [wall-id]
+  (ensure-db-connected)
+  (if-let [wall (kv/fetch-one walls-bucket wall-id)]
+    (assoc (:value wall) :id wall-id)))
 
+
+
+(def ^:private max-quotes-id (atom (max-id-for quotes-bucket)))
+(defn- next-quote-id []
+  (str (swap! max-quotes-id inc)))
 
 (defn store-quote!
   ([quote]
