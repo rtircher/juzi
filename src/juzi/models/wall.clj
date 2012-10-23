@@ -19,7 +19,8 @@
     (map->Wall (riak/store-wall! (Wall. nil name description now now)))))
 
 (defn update-wall! [wall-id {:keys [name description]}]
-  )
+  (let [created-at (:created-at (wall wall-id))]
+    (map->Wall (riak/store-wall! wall-id (Wall. wall-id name description created-at (Date.))))))
 
 (defn delete-wall! [wall-id]
   )
