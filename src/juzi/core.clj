@@ -6,7 +6,8 @@
         [slingshot.slingshot :only [try+]])
   (:require [compojure.handler :as handler]
             [compojure.route   :as route]
-            juzi.middlewares.logger))
+            juzi.middlewares.logger
+            juzi.middlewares.url-rewrite))
 
 (defroutes api-routes
   (GET "/walls/:id" [id]
@@ -40,4 +41,5 @@
 (def app
   (-> (handler/api api-routes)
       wrap-error-handling
+      juzi.middlewares.url-rewrite/ignore-trailing-slash
       (juzi.middlewares.logger/wrap-request-logging)))
