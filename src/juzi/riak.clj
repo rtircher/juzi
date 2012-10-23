@@ -48,11 +48,14 @@ function(valueList) {
      (assoc quote :id id)))
 
 (defn find-quote [quote-id]
+  (ensure-db-connected)
   (if-let [quote (kv/fetch-one quotes-bucket quote-id)]
     (assoc (:value quote) :id quote-id)))
 
 (defn find-quotes [wall-id]
+  (ensure-db-connected)
   (pmap find-quote (kv/index-query quotes-bucket :wall-id wall-id)))
 
 (defn delete-quote! [quote-id]
+  (ensure-db-connected)
   (kv/delete quotes-bucket quote-id))
