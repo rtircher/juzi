@@ -22,7 +22,10 @@
   (POST "/walls/:wall-id/quotes" {params :params}
     (json (create-quote! params)))
   (PUT "/walls/:wall-id/quotes/:quote-id" [quote-id :as {params :params}]
-    (json (update-quote! quote-id params)))
+    (let [quote (update-quote! quote-id params)]
+      (if quote
+        (json quote)
+        (json {:error "quote not found"} 404))))
 
   (route/not-found "Not Found"))
 

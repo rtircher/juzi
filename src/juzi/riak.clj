@@ -37,7 +37,6 @@ function(valueList) {
 (defn- next-quote-id []
   (str (swap! max-quotes-id inc)))
 
-
 (defn store-quote!
   ([quote]
      (store-quote! (next-quote-id) quote))
@@ -48,6 +47,9 @@ function(valueList) {
                :indexes {:wall-id (:wall-id quote)})
      (assoc quote :id id)))
 
+(defn find-quote [quote-id]
+  (if-let [quote (kv/fetch-one quotes-bucket quote-id)]
+    (assoc (:value quote) :id quote-id)))
+
 (defn find-quotes [wall-id]
-  (map :value (kv/fetch-all quotes-bucket
-                         (kv/index-query quotes-bucket :wall-id wall-id))))
+  (pmap find-quote (kv/index-query quotes-bucket :wall-id wall-id)))
