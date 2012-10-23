@@ -7,6 +7,7 @@
 
 (def ^:private db-connected (ref false))
 (def ^:private quotes-bucket "quotes")
+(def ^:private walls-bucket "walls")
 
 (defn- ensure-db-connected []
   (dosync
@@ -36,6 +37,23 @@ function(valueList) {
 (def ^:private max-quotes-id (atom (max-id-for quotes-bucket)))
 (defn- next-quote-id []
   (str (swap! max-quotes-id inc)))
+
+(def ^:private max-walls-id (atom (max-id-for walls-bucket)))
+(defn- next-wall-id []
+  (str (swap! max-walls-id inc)))
+
+
+
+(defn store-wall!
+  ([wall]
+     (store-wall! (next-wall-id) wall))
+  ([id wall]
+     (ensure-db-connected)
+     (kv/store walls-bucket id wall
+               :content-type Constants/CTYPE_JSON_UTF8)
+     (assoc wall :id id)))
+
+
 
 (defn store-quote!
   ([quote]

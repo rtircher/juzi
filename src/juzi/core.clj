@@ -1,7 +1,7 @@
 (ns juzi.core
   (:use compojure.core
         [juzi.response :only [json]]
-        [juzi.models.wall :only [wall create-wall! update-wall!]]
+        [juzi.models.wall :only [wall create-wall! update-wall! delete-wall!]]
         [juzi.models.quote :only [quotes create-quote! update-quote! delete-quote!]]
         [slingshot.slingshot :only [try+]])
   (:require [compojure.handler :as handler]
@@ -12,10 +12,12 @@
 (defroutes api-routes
   (GET "/walls/:id" [id]
     (json (wall id)))
-  (POST "/walls" []
-    (json (create-wall!)))
-  (PUT "/walls" []
-    (json (update-wall!)))
+  (POST "/walls" {params :params}
+    (json (create-wall! params)))
+  (PUT "/walls/:id" [id :as {params :params}]
+    (json (update-wall! id params)))
+  (DELETE "/walls/:id" [id]
+    (json (delete-wall! id)))
 
   (GET "/walls/:wall-id/quotes" [wall-id]
     (json (quotes wall-id)))
@@ -23,7 +25,7 @@
     (json (create-quote! params)))
   (PUT "/walls/:wall-id/quotes/:quote-id" [quote-id :as {params :params}]
     (json (update-quote! quote-id params)))
-  (DELETE "/walls/:wall-id/quotes/:quote-id" [wall-id quote-id]
+  (DELETE "/walls/:wall-id/quotes/:quote-id" [quote-id]
     (json (delete-quote! quote-id)))
 
   (route/not-found "Not Found"))
