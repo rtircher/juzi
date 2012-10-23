@@ -2,7 +2,7 @@
   (:use compojure.core
         [juzi.response :only [json]]
         [juzi.models.wall :only [wall create-wall! update-wall!]]
-        [juzi.models.quote :only [quotes create-quote! update-quote!]]
+        [juzi.models.quote :only [quotes create-quote! update-quote! delete-quote!]]
         [ring.middleware reload])
   (:require [compojure.handler :as handler]
             [compojure.route   :as route]
@@ -26,6 +26,8 @@
       (if quote
         (json quote)
         (json {:error "quote not found"} 404))))
+  (DELETE "/walls/:wall-id/quotes/:quote-id" [wall-id quote-id]
+    (json nil (if (delete-quote! quote-id) 200 404)))
 
   (route/not-found "Not Found"))
 

@@ -53,3 +53,6 @@ function(valueList) {
 
 (defn find-quotes [wall-id]
   (pmap find-quote (kv/index-query quotes-bucket :wall-id wall-id)))
+
+(defn delete-quote! [quote-id]
+  (kv/delete quotes-bucket quote-id))
