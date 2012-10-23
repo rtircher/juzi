@@ -1,5 +1,6 @@
 (ns juzi.models.quote
-  (:use [slingshot.slingshot :only [throw+]])
+  (:use [slingshot.slingshot :only [throw+]]
+        [juzi.models.wall :only [wall]])
   (:require [juzi.riak :as riak])
   (:import java.util.Date))
 
@@ -9,10 +10,14 @@
   (throw+ {:type    :not-found
            :message (str "quote " quote-id " not found")}))
 
+(defn- ensure-wall-exists [wall-id]
+  (wall wall-id))
+
 (defn quotes [wall-id]
   (map map->Quote (riak/find-quotes wall-id)))
 
 (defn create-quote! [{:keys [wall-id quote-text up-votes down-votes]}]
+  (ensure-wall-exists wall-id)
   (let [now (Date.)]
     (map->Quote
      (riak/store-quote! (Quote. nil wall-id quote-text up-votes down-votes now now)))))
