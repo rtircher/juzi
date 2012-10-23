@@ -3,11 +3,10 @@
         [juzi.response :only [json]]
         [juzi.models.wall :only [wall create-wall! update-wall!]]
         [juzi.models.quote :only [quotes create-quote! update-quote! delete-quote!]]
-        [ring.middleware reload])
+        [slingshot.slingshot :only [try+]])
   (:require [compojure.handler :as handler]
             [compojure.route   :as route]
             juzi.middlewares.logger))
-
 
 (defroutes api-routes
   (GET "/walls/:id" [id]
@@ -22,17 +21,23 @@
   (POST "/walls/:wall-id/quotes" {params :params}
     (json (create-quote! params)))
   (PUT "/walls/:wall-id/quotes/:quote-id" [quote-id :as {params :params}]
-    (let [quote (update-quote! quote-id params)]
-      (if quote
-        (json quote)
-        (json {:error "quote not found"} 404))))
+    (json (update-quote! quote-id params)))
   (DELETE "/walls/:wall-id/quotes/:quote-id" [wall-id quote-id]
-    (json nil (if (delete-quote! quote-id) 200 404)))
+    (json (delete-quote! quote-id)))
 
   (route/not-found "Not Found"))
 
 
+(defn- wrap-error-handling [handler]
+  (fn [req]
+    (try+
+      (handler req)
+      (catch [:type :not-found] {:keys [message]}
+        (json {:error message} 404))
+      (catch [:type :invalid] {:keys [message]}
+        (json {:error message} 400)))))
+
 (def app
   (-> (handler/api api-routes)
-      wrap-reload
+      wrap-error-handling
       (juzi.middlewares.logger/wrap-request-logging)))
