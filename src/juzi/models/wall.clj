@@ -23,4 +23,6 @@
     (map->Wall (riak/store-wall! wall-id (Wall. wall-id name description created-at (Date.))))))
 
 (defn delete-wall! [wall-id]
-  )
+  (let [wall (wall wall-id)]
+    (riak/delete-wall! wall-id)
+    wall))

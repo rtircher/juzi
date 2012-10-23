@@ -56,6 +56,9 @@ function(valueList) {
   (if-let [wall (kv/fetch-one walls-bucket wall-id)]
     (assoc (:value wall) :id wall-id)))
 
+(defn delete-wall! [wall-id]
+  (ensure-db-connected)
+  (kv/delete walls-bucket wall-id))
 
 
 (def ^:private max-quotes-id (atom (max-id-for quotes-bucket)))
