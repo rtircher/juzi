@@ -1,4 +1,4 @@
-(ns juzi.middlewares.url-rewrite)
+(ns middlewares.url-rewrite)
 
 (defn with-uri-rewrite
   "Rewrites a request uri with the result of calling f with the

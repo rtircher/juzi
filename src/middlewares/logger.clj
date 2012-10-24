@@ -1,4 +1,4 @@
-(ns juzi.middlewares.logger)
+(ns middlewares.logger)
 
 (defn wrap-request-logging-with-formatter [handler formatter]
   "Adds simple logging for requests.
