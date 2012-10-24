@@ -1,5 +1,5 @@
 (ns juzi.riak
-  (:use juzi.config)
+  (:use config)
   (:require [clojurewerkz.welle.core    :as wc]
             [clojurewerkz.welle.kv      :as kv]
             [clojurewerkz.welle.mr      :as mr])
