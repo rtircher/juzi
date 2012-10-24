@@ -1,3 +1,1 @@
-(ns juzi.config.production)
-
-(def config {:db-url "http"})
+(defconfig {:db-url "http://127.0.0.1:8098/riak"})
