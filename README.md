@@ -11,9 +11,11 @@ You will need Erlang version R15B01 or above installed.  On a Mac I recommend ho
 
 ## Running
 
-To start a web server for the application, run:
+To start riak and application web server, run:
 
     ./go
+
+This script will also make sure all the prerequisites are met or download what is required.
 
 ## TODO
 
