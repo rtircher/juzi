@@ -10,5 +10,5 @@
                  ]
   :plugins [[lein-ring "0.7.5"]]
   :ring {:handler juzi.core/app
-         :port 4000}
+         :port 8081}
   :dev-dependencies [[ring-mock "0.1.2"]])
